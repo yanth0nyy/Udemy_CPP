@@ -1,3 +1,4 @@
+//Edited by Ahmed Karrar to make it more dynamic
 // Section 12
 // Challenge - Solution
 
@@ -29,7 +30,7 @@
     cout << "Result: " ;
     print(results,15);
    
-   Output
+   Output (It's dynamic now)
    ---------------------
    Array 1: [ 1 2 3 4 5 ]
    Array 2: [ 10 20 30 ]
@@ -40,35 +41,25 @@
 
 using namespace std;
 
-// Function prototypes
-int * apply_all(const int *const arr1, size_t size1, const int *const arr2, size_t size2);
-void print(const int *const array, size_t size);
-
-
-/*******************************************************************
-This function expects:
-    arr1 - a pointer to an array of integers
-    size1 - the number of integers in arr1
-    arr2 - a pointer to another array of integers
-    size2 - the number of integers in arr2
     
-    The function dynamically allocates a new array that is of size = size1 * size2
-    Then it loops through each element of arr2 and multiples it across all the
-    elements of arr1 and each product is stored in the newly created array
 ********************************************************************/
-int * apply_all(const int *const arr1, size_t size1, const int *const arr2, size_t size2) {
-    int *new_array {};
-    
-    new_array = new int[size1 * size2];
-    
-    int position {0};
-    for (size_t i{0}; i < size2; ++i) {
-        for (size_t j{0}; j< size1; ++j) {
-            new_array[position] = arr1[j] * arr2[i];
-            ++position;
-        }
+  
+   /* The function dynamically allocates a new array that is of size = size1 * size2
+    Then it loops through each element of arr2 and multiples it across all the
+    elements of arr1 and each product is stored in the newly created array*/
+  
+int* apply_all (const int *const arr1, size_t size1, const int *const arr2, size_t size2){
+int *result = new int [size1*size2]; //لازم نحدد السايز وفي حالتنا هو حاصل ضرب الرقمين دول
+size_t index = 0; /*It keeps track of the current position in the result array 
+                  where the next product should be stored. */
+for (size_t i{0}; i<size2 ;++i){
+    for (size_t j{0}; j<size1; ++j){
+         result[index++] = arr2[i]* arr1[j];
+        
     }
-    return new_array;
+     
+}
+return result;
 }
 /*******************************************************************
 This function expects:
@@ -86,27 +77,38 @@ void print(const int *const arr, size_t size) {
     cout << endl;
 }
 
-int main() {
-    const size_t array1_size {5};
-    const size_t array2_size {3};
-    
-    int array1[] {1,2,3,4,5};
-    int array2[] {10,20,30};
+int main (){
+
+ size_t size1{};
+ size_t size2{};
+ cout<<"Enter the size of the first array: ";
+ cin>>size1;
+ cout<<"\nEnter the size of the second array: ";
+ cin>>size2;
+
+ int* array1 = new int [size1];
+ int* array2 = new int [size2];
+ cout<<"Enter the elements of the first array: ";
+ for (size_t i{0}; i<size1; i++){
+    cin>>array1[i];
+ }
+ cout<<"Enter the elements of the second array: ";
+ for (size_t i{0}; i<size2; i++){
+    cin>>array2[i];
+ }
+     
     
     cout << "Array 1: " ;
-    print(array1,array1_size);
+    print(array1,size1);
     
     cout << "Array 2: " ;
-    print(array2,array2_size);
+    print(array2,size2);
     
-    int *results = apply_all(array1, array1_size, array2, array2_size);
-    constexpr size_t results_size {array1_size * array2_size};
-    
+    int *results = apply_all(array1, size1, array2, size2);
     cout << "Result: " ;
-    print(results,results_size);
-    
-    delete [] results;
-    cout << endl;
+    print(results,size1 * size2);
+
+    delete[] results;
     return 0;
 }
 
